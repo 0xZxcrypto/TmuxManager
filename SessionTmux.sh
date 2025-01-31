@@ -24,8 +24,8 @@ spinner() {
 # Header dan pesan pembuka dengan gambar ASCII
 clear
 echo -e "${GREEN}==========================================================="
-echo -e "${YELLOW}            ▀█ ▀▄▀ █▀▀ █▀█ █▄█ █▀█ ▀█▀ █▀█
-echo -e "${YELLOW}            █▄ █░█ █▄▄ █▀▄ ░█░ █▀▀ ░█░ █▄█                                         
+echo -e "${YELLOW}            ▀█ ▀▄▀ █▀▀ █▀█ █▄█ █▀█ ▀█▀ █▀█            "
+echo -e "${YELLOW}            █▄ █░█ █▄▄ █▀▄ ░█░ █▀▀ ░█░ █▄█            "
 echo -e "${GREEN}==========================================================="
 echo -e "${YELLOW}       ⚡ WELCOME TO THE AUTOMATED BOT LAUNCHER ⚡               "
 echo -e "${GREEN}==========================================================="

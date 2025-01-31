@@ -45,8 +45,8 @@ BOTS_NO_INPUT=(
     "BERATRAX:/home/hg680p/beratraxBot:node main.js:"
     "TAKER:/home/hg680p/takerBot:node main.js:"
     "MESHCHAIN:/home/hg680p/mesh-bot:node main.js:"
-    "LITAS:/home/hg680p/litasBot:node main.js:"
-    "STREAM-Ai:/home/hg680p/streamAi:node main.js:"
+    #❌<BOT ERROR>"LITAS:/home/hg680p/litasBot:node main.js:"
+    #❌<BOT ERROR>"STREAM-Ai:/home/hg680p/streamAi:node main.js:"
 )
 
 # Daftar bot dengan input otomatis
@@ -118,7 +118,7 @@ start_bot_with_venv() {
 start_bot_with_venv "DAWN" "/home/hg680p/Dawn-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 
 # Menjalankan DEPINED dengan virtual environment
-start_bot_with_venv "DEPINED" "/home/hg680p/Depined-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+#❌ (only stb8) start_bot_with_venv "DEPINED" "/home/hg680p/depinedBot" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 
 # Loop untuk menjalankan bot dengan input otomatis
 for BOT in "${BOTS_WITH_INPUT[@]}"; do

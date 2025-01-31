@@ -21,11 +21,14 @@ spinner() {
     echo -ne "\r${GREEN}✓ Selesai! ${RESET}                     \n"
 }
 
-# Header dan pesan pembuka
+# Header dan pesan pembuka dengan gambar ASCII
 clear
-echo -e "${GREEN}========================================="
-echo -e "${YELLOW}  ⚡ WELCOME TO THE AUTOMATED BOT LAUNCHER ⚡"
-echo -e "${GREEN}========================================="
+echo -e "${GREEN}==========================================================="
+echo -e "${YELLOW}            "▀█ ▀▄▀ █▀▀ █▀█ █▄█ █▀█ ▀█▀ █▀█"
+echo -e "${YELLOW}            "█▄ █░█ █▄▄ █▀▄ ░█░ █▀▀ ░█░ █▄█"                                            
+echo -e "${GREEN}==========================================================="
+echo -e "${YELLOW}  ⚡ WELCOME TO THE AUTOMATED BOT LAUNCHER ⚡               "
+echo -e "${GREEN}==========================================================="
 echo ""
 
 # Daftar bot tanpa input otomatis
@@ -128,6 +131,7 @@ echo -ne "${YELLOW}⚡ Memastikan semua bot berjalan dengan baik...${RESET}"
 sleep 2
 echo -ne "\r${GREEN}✅ Semua bot telah berjalan!${RESET}\n"
 
-echo -e "${GREEN}========================================="
+# Tampilan akhir yang rapi
+echo -e "${GREEN}==========================================================="
 echo -e "${YELLOW}  [>>>] SEMUA BOT TELAH DIJALANKAN DI TMUX! [<<<]"
-echo -e "${GREEN}========================================="
+echo -e "${GREEN}==========================================================="

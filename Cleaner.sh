@@ -9,8 +9,8 @@ YELLOW='\033[1;33m'
 RED='\033[1;31m'
 RESET='\033[0m'
 
-# Log file
-LOG_FILE="/var/log/Cleaner.log"
+# Log file di direktori TmuxManager
+LOG_FILE="/home/hg680p/TmuxManager/Cleaner.log"
 
 # Header
 echo -e "${GREEN}====================================" | tee -a "$LOG_FILE"

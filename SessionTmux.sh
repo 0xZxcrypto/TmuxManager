@@ -39,7 +39,7 @@ BOTS_NO_INPUT=(
     "MEOWTOPIA:/home/hg680p/meowBot:node main.js:"
     "TEAFI:/home/hg680p/teaFiBot:node main.js:"
     "DESPEED:/home/hg680p/despeedBot:npm run start:"
-    "LAYEREDGE:/home/hg680p/LayerEdge-BOT:node main.js:"
+    "LAYEREDGE:/home/hg680p/LedgeBot:node main.js:"
     "OASIS-Ai:/home/hg680p/oasis-bot:node main.js:"
     "LISK:/home/hg680p/liskPortsl:node main.js:"
     "BERATRAX:/home/hg680p/beratraxBot:node main.js:"
@@ -118,7 +118,7 @@ start_bot_with_venv() {
 start_bot_with_venv "DAWN" "/home/hg680p/Dawn-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 
 # Menjalankan DEPINED dengan virtual environment
-#❌ (only stb8) start_bot_with_venv "DEPINED" "/home/hg680p/depinedBot" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+start_bot_with_venv "DEPINED" "/home/hg680p/depinedBot" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 
 # Loop untuk menjalankan bot dengan input otomatis
 for BOT in "${BOTS_WITH_INPUT[@]}"; do

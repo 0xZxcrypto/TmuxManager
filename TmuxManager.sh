@@ -26,9 +26,9 @@ show_header() {
     done
     echo -e "${NC}"
     echo -e "${BOLD}${YELLOW}         TMUX MANAGER By 0xRizal${NC}"
-    echo -e "${CYAN}========================================${NC}"
+    echo -e "${CYAN}>>>>>>>>=========================<<<<<<<<${NC}"
     echo -e "${WHITE}  USE ↑/↓ TO NAVIGATE, ENTER TO SELECT${NC}"
-    echo -e "${CYAN}----------------------------------------${NC}"
+    echo -e "${CYAN}-----------------------------------------${NC}"
 }
 
 # Fungsi menu utama
@@ -49,7 +49,7 @@ menu() {
             fi
         done
 
-        echo -e "${CYAN}----------------------------------------${NC}"
+        echo -e "${CYAN}-----------------------------------------${NC}"
 
         read -rsn1 input
         case $input in
@@ -76,9 +76,9 @@ list_sessions() {
     show_header
     sessions=$(tmux list-sessions 2>/dev/null)
 
-    echo -e "${WHITE}========================================${NC}"
+    echo -e "${WHITE}=========================================${NC}"
     echo -e "${BOLD}${YELLOW}  NO   SESI            WINDOWS${NC}"
-    echo -e "${CYAN}----------------------------------------${NC}"
+    echo -e "${CYAN}-----------------------------------------${NC}"
 
     session_names=()
     index=1
@@ -94,7 +94,7 @@ list_sessions() {
         done <<< "$sessions"
     fi
 
-    echo -e "${CYAN}----------------------------------------${NC}"
+    echo -e "${CYAN}-----------------------------------------${NC}"
     echo -n -e "${CYAN}Pilih nomor sesi untuk masuk [Enter untuk kembali]: ${NC}"
     read -r session_index
     if [[ -n "$session_index" && "$session_index" -gt 0 && "$session_index" -le "${#session_names[@]}" ]]; then
@@ -125,9 +125,9 @@ delete_session() {
     show_header
     sessions=$(tmux list-sessions 2>/dev/null)
 
-    echo -e "${WHITE}========================================${NC}"
+    echo -e "${WHITE}=========================================${NC}"
     echo -e "${BOLD}${YELLOW}  PILIH SESI UNTUK DIHAPUS${NC}"
-    echo -e "${CYAN}----------------------------------------${NC}"
+    echo -e "${CYAN}-----------------------------------------${NC}"
     
     session_names=()
     index=1
@@ -142,7 +142,7 @@ delete_session() {
         done <<< "$sessions"
     fi
 
-    echo -e "${CYAN}----------------------------------------${NC}"
+    echo -e "${CYAN}-----------------------------------------${NC}"
     echo -n -e "${CYAN}Pilih nomor sesi untuk dihapus [Enter untuk kembali]: ${NC}"
     read -r session_index
     if [[ -n "$session_index" && "$session_index" -gt 0 && "$session_index" -le "${#session_names[@]}" ]]; then

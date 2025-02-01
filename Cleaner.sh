@@ -12,29 +12,37 @@ RESET='\033[0m'
 # Log file di direktori TmuxManager
 LOG_FILE="/home/hg680p/TmuxManager/Cleaner.log"
 
+# Password sudo (ganti dengan password user hg680p)
+PASSWORD="hg680p"
+
 # Header
 echo -e "${GREEN}====================================" | tee -a "$LOG_FILE"
 echo -e "${YELLOW}  Pembersihan & Optimasi Sistem - $DATE_NOW" | tee -a "$LOG_FILE"
 echo -e "${GREEN}====================================" | tee -a "$LOG_FILE"
 
+# Fungsi untuk menjalankan perintah dengan sudo tanpa password prompt
+run_sudo() {
+    echo "$PASSWORD" | sudo -S "$@"
+}
+
 # 1. Hapus log dan file lama
 echo -e "${YELLOW}[INFO] Menghapus log dan file lama..." | tee -a "$LOG_FILE"
-sudo journalctl --vacuum-time=1d
-sudo find /var/log -type f \( -name "*.log" -o -name "*.gz" \) -exec rm -f {} \;
+run_sudo journalctl --vacuum-time=1d
+run_sudo find /var/log -type f \( -name "*.log" -o -name "*.gz" \) -exec rm -f {} \;
 
 # 2. Hapus cache dan file sementara
 echo -e "${YELLOW}[INFO] Menghapus cache APT dan file sementara..." | tee -a "$LOG_FILE"
-sudo apt-get autoremove -y
-sudo apt-get clean -y
-sudo rm -rf /tmp/* /var/tmp/*
+run_sudo apt-get autoremove -y
+run_sudo apt-get clean -y
+run_sudo rm -rf /tmp/* /var/tmp/*
 
 # 3. Optimasi Swap dan Memori
 echo -e "${YELLOW}[INFO] Mengoptimalkan memori dan swap..." | tee -a "$LOG_FILE"
-sudo sync && sudo sysctl -w vm.drop_caches=3
-sudo swapoff /dev/zram0
-echo 536870912 | sudo tee /sys/block/zram0/disksize
-sudo mkswap /dev/zram0
-sudo swapon /dev/zram0
+run_sudo sync && run_sudo sysctl -w vm.drop_caches=3
+run_sudo swapoff /dev/zram0
+echo 536870912 | run_sudo tee /sys/block/zram0/disksize
+run_sudo mkswap /dev/zram0
+run_sudo swapon /dev/zram0
 
 # 4. Hapus cache thumbnail
 echo -e "${YELLOW}[INFO] Menghapus cache thumbnail..." | tee -a "$LOG_FILE"
@@ -42,8 +50,8 @@ rm -rf ~/.cache/thumbnails/*
 
 # 5. Matikan layanan tidak penting
 echo -e "${YELLOW}[INFO] Mematikan layanan yang tidak diperlukan..." | tee -a "$LOG_FILE"
-sudo systemctl stop bluetooth.service
-sudo systemctl disable bluetooth.service
+run_sudo systemctl stop bluetooth.service
+run_sudo systemctl disable bluetooth.service
 
 # 6. Menampilkan status setelah pembersihan
 echo -e "${GREEN}====================================" | tee -a "$LOG_FILE"

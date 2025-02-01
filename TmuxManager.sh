@@ -1,161 +1,165 @@
 #!/bin/bash
 
 # Kode warna ANSI
-CYAN='\033[1;36m'   # Cyan tebal
-YELLOW='\033[1;33m' # Kuning tebal
-WHITE='\033[1;37m'  # Putih tebal
-BOLD='\033[1m'      # Teks tebal
-BLUE='\033[1;34m'   # Biru tebal
-NC='\033[0m'        # No Color
+CYAN='\033[1;36m'
+YELLOW='\033[1;33m'
+WHITE='\033[1;37m'
+NC='\033[0m'   # No Color
+BOLD='\033[1m'
 
-# Fungsi untuk menampilkan header dengan gaya yang konsisten
+# Fungsi animasi ASCII dengan kecepatan 0.005 detik per karakter
 show_header() {
-  echo -e "${CYAN}========================================"
-  echo -e "         TMUX MANAGER By 0xRizal        "
-  echo -e "========================================${NC}"
+    clear
+    text=(
+        "▒█▀▀▀█ █░█ █▀▀ █▀▀█ █░░█ █▀▀█ ▀▀█▀▀ █▀▀█"
+        "░▄▄▄▀▀ ▄▀▄ █░░ █▄▄▀ █▄▄█ █░░█ ░░█░░ █░░█"
+        "▒█▄▄▄█ ▀░▀ ▀▀▀ ▀░▀▀ ▄▄▄█ █▀▀▀ ░░▀░░ ▀▀▀▀"
+    )
+
+    echo -e "${CYAN}"
+    for line in "${text[@]}"; do
+        for ((i = 0; i < ${#line}; i++)); do
+            echo -n "${line:i:1}"
+            sleep 0.0008  # Animasi lebih cepat (0.005 detik per karakter)
+        done
+        echo ""
+    done
+    echo -e "${NC}"
+    echo -e "${BOLD}${YELLOW}        TMUX MANAGER By 0xRizal${NC}"
+    echo -e "${CYAN}========================================${NC}"
+    echo -e "${WHITE}  USE ↑/↓ TO NAVIGATE, ENTER TO SELECT${NC}"
+    echo -e "${CYAN}----------------------------------------${NC}"
 }
 
-# Fungsi untuk menampilkan menu utama dengan efek pemilihan
+# Fungsi menu utama yang lebih rapi dan sejajar
 menu() {
-  local options=("Lihat daftar sesi" "Buat sesi baru" "Hapus sesi" "Keluar")
-  local selected=0
+    local options=("LIHAT DAFTAR SESI" "BUAT SESI BARU" "HAPUS SESI" "KELUAR")
+    local selected=0
 
-  while true; do
+    while true; do
+        clear
+        show_header
+
+        for i in "${!options[@]}"; do
+            option_upper=$(echo "${options[i]}" | tr 'a-z' 'A-Z')
+            if [[ $i -eq $selected ]]; then
+                printf "${BOLD}${YELLOW}%10s > %-20s${NC}\n" "$(($i+1))." "$option_upper"
+            else
+                printf "${WHITE}%10s   %-20s${NC}\n" "$(($i+1))." "$option_upper"
+            fi
+        done
+
+        echo -e "${CYAN}----------------------------------------${NC}"
+
+        read -rsn1 input
+        case $input in
+            $'\x1B') 
+                read -rsn2 -t 0.1 input
+                case $input in
+                    '[A') ((selected--)); if [[ $selected -lt 0 ]]; then selected=$((${#options[@]} - 1)); fi ;;
+                    '[B') ((selected++)); if [[ $selected -ge ${#options[@]} ]]; then selected=0; fi ;;
+                esac ;;
+            '') 
+                case $selected in
+                    0) list_sessions ;;
+                    1) create_session ;;
+                    2) delete_session ;;
+                    3) exit_animation ;;
+                esac ;;
+        esac
+    done
+}
+
+# Fungsi daftar sesi TMUX
+list_sessions() {
     clear
     show_header
-    echo -e "${YELLOW}USE ↑/↓ TO SELECT...${NC}"
+    echo -e "${YELLOW}Memuat daftar sesi TMUX...${NC}"
+    sessions=$(tmux list-sessions 2>/dev/null)
 
-    # Menampilkan opsi menu dengan nomor, huruf besar, dan tebal
-    for i in "${!options[@]}"; do
-      option_upper=$(echo "${options[i]}" | tr 'a-z' 'A-Z') # Mengubah ke huruf besar
-      if [[ $i -eq $selected ]]; then
-        echo -e "${BOLD}${YELLOW} > $((i+1)). ${option_upper} ${NC}" # Menambahkan nomor dan efek pilihan
-      else
-        echo -e "${WHITE}   $((i+1)). ${option_upper} ${NC}" # Warna default untuk opsi lainnya
-      fi
-    done
+    if [[ -z "$sessions" ]]; then
+        echo -e "${CYAN}Tidak ada sesi aktif.${NC}"
+    else
+        echo -e "${WHITE}========================================"
+        echo -e "            DAFTAR SESI TMUX"
+        echo -e "========================================${NC}"
+        echo -e "${WHITE}NO   SESI            WINDOWS${NC}"
+        echo -e "${CYAN}----------------------------------------${NC}"
 
-    # Membaca input dari keyboard untuk navigasi
-    read -rsn1 input
-    case $input in
-      $'\x1B') # Tombol escape untuk panah
-        read -rsn2 -t 0.1 input
-        case $input in
-          '[A') # Panah atas
-            ((selected--))
-            if [[ $selected -lt 0 ]]; then selected=$((${#options[@]} - 1)); fi
-            ;;
-          '[B') # Panah bawah
-            ((selected++))
-            if [[ $selected -ge ${#options[@]} ]]; then selected=0; fi
-            ;;
-        esac
-        ;;
-      '') # Input Enter
-        case $selected in
-          0) list_sessions ;;  # Menampilkan sesi dan memungkinkan untuk masuk
-          1) create_session ;;
-          2) delete_session ;;  # Memilih sesi untuk dihapus
-          3) exit 0 ;;  # Keluar dari aplikasi
-        esac
-        ;;
-    esac
-  done
-}
+        session_names=()
+        index=1
+        while IFS= read -r session; do
+            session_name=$(echo "$session" | cut -d ':' -f 1)
+            session_windows=$(echo "$session" | grep -oP '\d+(?= windows)')
+            printf "${WHITE}%-4s %-15s ${CYAN}%-5s windows${NC}\n" "$index." "$session_name" "$session_windows"
+            session_names+=("$session_name")
+            ((index++))
+        done <<< "$sessions"
+    fi
 
-# Fungsi daftar sesi tmux dengan nomor dan navigasi untuk masuk
-list_sessions() {
-  clear
-  show_header
-  echo -e "${YELLOW}========================================"
-  echo -e "        DAFTAR SESI TMUX AKTIF          "
-  echo -e "========================================${NC}"
-
-  sessions=$(tmux list-sessions 2>/dev/null)
-  if [[ -z "$sessions" ]]; then
-    echo -e "${CYAN}Tidak ada sesi aktif.${NC}"
-    read -n 1 -s -r -p "[ Enter untuk kembali ]=>"
-    return
-  fi
-
-  printf "${WHITE}%-5s %-15s %-15s${NC}\n" "No" "Sesi" "Jumlah Windows"
-  echo -e "${CYAN}----------------------------------------${NC}"
-
-  session_names=()  # Array untuk menyimpan nama sesi
-  index=1
-  while IFS= read -r session; do
-    session_name=$(echo "$session" | cut -d ':' -f 1)
-    session_windows=$(echo "$session" | grep -oP '\d+(?= windows)')
-    printf "${WHITE}%-5s %-15s ${CYAN}%-15s${NC}\n" "$index" "$session_name" "$session_windows windows"
-    session_names+=("$session_name")  # Menambahkan nama sesi ke array
-    ((index++))
-  done <<< "$sessions"
-
-  echo -e "${CYAN}----------------------------------------${NC}"
-
-  # Prompt untuk memilih sesi
-  echo -n -e "${CYAN}PILIH NOMOR SESI [ Enter untuk kembali ]=> ${NC}"
-  read -r session_index
-
-  # Jika nomor valid, masuk ke sesi
-  if [[ -n "$session_index" && "$session_index" -gt 0 && "$session_index" -le "${#session_names[@]}" ]]; then
-    tmux attach-session -t "${session_names[$((session_index - 1))]}"
-  else
-    echo -e "${CYAN}Nomor sesi tidak valid.${NC}"
-    read -n 1 -s -r -p "[ Enter untuk kembali ]=>"
-  fi
-}
-
-# Fungsi menghapus sesi
-delete_session() {
-  clear
-  show_header
-  echo -e "${YELLOW}========================================"
-  echo -e "        PILIH SESI UNTUK DIHAPUS        "
-  echo -e "========================================${NC}"
-
-  sessions=$(tmux list-sessions 2>/dev/null)
-  if [[ -z "$sessions" ]]; then
-    echo -e "${CYAN}Tidak ada sesi aktif untuk dihapus.${NC}"
-    read -n 1 -s -r -p "[ Enter untuk kembali ]=>"
-    return
-  fi
-
-  printf "${WHITE}%-5s %-15s %-15s${NC}\n" "No" "Sesi" "Jumlah Windows"
-  echo -e "${CYAN}----------------------------------------${NC}"
-
-  session_names=()  # Array untuk menyimpan nama sesi
-  index=1
-  while IFS= read -r session; do
-    session_name=$(echo "$session" | cut -d ':' -f 1)
-    session_windows=$(echo "$session" | grep -oP '\d+(?= windows)')
-    printf "${WHITE}%-5s %-15s ${CYAN}%-15s${NC}\n" "$index" "$session_name" "$session_windows windows"
-    session_names+=("$session_name")  # Menambahkan nama sesi ke array
-    ((index++))
-  done <<< "$sessions"
-
-  echo -e "${CYAN}----------------------------------------${NC}"
-
-  # Prompt untuk memilih sesi yang akan dihapus
-  echo -n -e "${CYAN}PILIH NOMOR SESI UNTUK DIHAPUS [ Enter untuk kembali ]=> ${NC}"
-  read -r session_index
-
-  # Jika nomor valid, hapus sesi dan langsung kembali ke menu utama tanpa menunggu input
-  if [[ -n "$session_index" && "$session_index" -gt 0 && "$session_index" -le "${#session_names[@]}" ]]; then
-    tmux kill-session -t "${session_names[$((session_index - 1))]}"
-    # Tidak menampilkan pesan, langsung kembali ke menu utama
-    menu
-  else
-    menu  # Jika nomor sesi tidak valid, langsung kembali ke menu utama
-  fi
+    echo -e "${CYAN}----------------------------------------${NC}"
+    echo -n -e "${CYAN}Pilih nomor sesi untuk masuk [Enter untuk kembali]: ${NC}"
+    read -r session_index
+    if [[ -n "$session_index" && "$session_index" -gt 0 && "$session_index" -le "${#session_names[@]}" ]]; then
+        tmux attach-session -t "${session_names[$((session_index - 1))]}"
+    else
+        menu
+    fi
 }
 
 # Fungsi membuat sesi baru
 create_session() {
-  echo -n -e "${CYAN}Masukkan nama sesi baru: ${NC}"
-  read -r session_name
-  tmux new-session -d -s "$session_name" && echo -e "${CYAN}Sesi $session_name berhasil dibuat.${NC}"
-  menu
+    clear
+    show_header
+    echo -n -e "${CYAN}Masukkan nama sesi baru: ${NC}"
+    read -r session_name
+    if tmux new-session -d -s "$session_name"; then
+        echo -e "${CYAN}Sesi $session_name berhasil dibuat.${NC}"
+    else
+        echo -e "${YELLOW}Gagal membuat sesi. Pastikan nama tidak duplikat.${NC}"
+    fi
+    read -n 1 -s -r -p "[ Enter untuk kembali ke menu ]=>"
+    menu
+}
+
+# Fungsi menghapus sesi
+delete_session() {
+    clear
+    show_header
+    echo -e "${YELLOW}Memuat daftar sesi...${NC}"
+    sessions=$(tmux list-sessions 2>/dev/null)
+
+    if [[ -z "$sessions" ]]; then
+        echo -e "${CYAN}Tidak ada sesi aktif untuk dihapus.${NC}"
+    else
+        echo -e "${WHITE}========================================"
+        echo -e "        PILIH SESI UNTUK DIHAPUS"
+        echo -e "========================================${NC}"
+        session_names=()
+        index=1
+        while IFS= read -r session; do
+            session_name=$(echo "$session" | cut -d ':' -f 1)
+            printf "${WHITE}%-4s %-20s${NC}\n" "$index." "$session_name"
+            session_names+=("$session_name")
+            ((index++))
+        done <<< "$sessions"
+    fi
+
+    echo -e "${CYAN}----------------------------------------${NC}"
+    echo -n -e "${CYAN}Pilih nomor sesi untuk dihapus [Enter untuk kembali]: ${NC}"
+    read -r session_index
+    if [[ -n "$session_index" && "$session_index" -gt 0 && "$session_index" -le "${#session_names[@]}" ]]; then
+        tmux kill-session -t "${session_names[$((session_index - 1))]}"
+        echo -e "${CYAN}Sesi berhasil dihapus.${NC}"
+    fi
+    menu
+}
+
+# Fungsi animasi keluar lebih cepat
+exit_animation() {
+    echo -e "${YELLOW}Keluar...${NC}"
+    sleep 0.3
+    exit 0
 }
 
 # Mulai menu utama

@@ -71,6 +71,14 @@ BOTS=(
     "DAWN:/home/hg680p/Dawn-BOT"
     "BLESS:/home/hg680p/bless-bot"
     "TENEO:/home/hg680p/teneo-bot"
+    "NAORIS:/home/hg680p/Naoris-BOT"
+    "CAPFIZZ:/home/hg680p/Capfizz-BOT"
+    "OpenLedger:/home/hg680p/opledBot"
+    "MULTIPLE:/home/hg680p/MultipleLite-BOT"
+    "FUNCTOR:/home/hg680p/FunctorNode-BOT"
+    "STREAM-Ai:/home/hg680p/StreamAi-BOT"
+    "ASSISTER:/home/hg680p/Assisterr-BOT"
+  # ❌ "PIPE:/home/hg680p/PIPE"
 )
 
 # Loop untuk update setiap bot

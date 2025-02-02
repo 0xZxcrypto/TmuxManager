@@ -41,10 +41,10 @@ BOTS_NO_INPUT=(
     "DESPEED:/home/hg680p/despeedBot:npm run start:"
     "LAYEREDGE:/home/hg680p/LedgeBot:node main.js:"
     "OASIS-Ai:/home/hg680p/oasis-bot:node main.js:"
-    "LISK:/home/hg680p/liskPortsl:node main.js:"
-    "BERATRAX:/home/hg680p/beratraxBot:node main.js:"
-    "TAKER:/home/hg680p/takerBot:node main.js:"
-    "MESHCHAIN:/home/hg680p/mesh-bot:node main.js:"
+    #❌<BOT ERROR>"LISK:/home/hg680p/liskPortsl:node main.js:"
+    #❌<BOT ERROR>"BERATRAX:/home/hg680p/beratraxBot:node main.js:"
+    #❌<BOT ERROR>"TAKER:/home/hg680p/takerBot:node main.js:"
+    #❌<BOT ERROR>"MESHCHAIN:/home/hg680p/mesh-bot:node main.js:"
     #❌<BOT ERROR>"LITAS:/home/hg680p/litasBot:node main.js:"
     #❌<BOT ERROR>"STREAM-Ai:/home/hg680p/streamAi:node main.js:"
 )
@@ -120,6 +120,17 @@ start_bot_with_venv "DAWN" "/home/hg680p/Dawn-BOT" "python3 bot.py" "/home/hg680
 # Menjalankan DEPINED dengan virtual environment
 start_bot_with_venv "DEPINED" "/home/hg680p/depinedBot" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 
+# Menjalankan MULTIPLE dengan virtual environment
+start_bot_with_venv "MULTIPLE" "/home/hg680p/MultipleLite-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+
+# Menjalankan FUNCTOR dengan virtual environment
+start_bot_with_venv "FUNCTOR" "/home/hg680p/FunctorNode-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+
+# Menjalankan MULTIPLE dengan virtual environment
+start_bot_with_venv "STREAM-Ai" "/home/hg680p/StreamAi-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+
+# Menjalankan AIGAEA dengan virtual environment
+start_bot_with_venv "AiGaea" "/home/hg680p/AiGaea-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 # Loop untuk menjalankan bot dengan input otomatis
 for BOT in "${BOTS_WITH_INPUT[@]}"; do
     IFS=":" read -r SESSION FOLDER COMMAND INPUTS <<< "$BOT"

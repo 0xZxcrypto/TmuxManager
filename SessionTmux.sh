@@ -138,7 +138,7 @@ start_bot_with_venv "AiGaea" "/home/hg680p/AiGaea-BOT" "python3 bot.py" "/home/h
 start_bot_with_venv "ASSISTER" "/home/hg680p/Assisterr-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 
 # Menjalankan PIPE dengan virtual environment
-start_bot_with_venv "PIPE" "/home/hg680p/PIPE" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+#<error❌>start_bot_with_venv "PIPE" "/home/hg680p/PIPE" "python3 bot.py" "/home/hg680p/venv/bin/activate"
 
 # Loop untuk menjalankan bot dengan input otomatis
 for BOT in "${BOTS_WITH_INPUT[@]}"; do

@@ -43,6 +43,7 @@ BOTS_NO_INPUT=(
     "OASIS-Ai:/home/hg680p/oasis-bot:node main.js:"
     "NAORIS:/home/hg680p/Naoris-BOT:node main.js:"
     "CAPFIZZ:/home/hg680p/Capfizz-BOT:node main.js:"
+    "OpenLedger:/home/hg680p/opledBot:node main.js:"
     #❌<BOT ERROR>"LISK:/home/hg680p/liskPortsl:node main.js:"
     #❌<BOT ERROR>"BERATRAX:/home/hg680p/beratraxBot:node main.js:"
     #❌<BOT ERROR>"TAKER:/home/hg680p/takerBot:node main.js:"

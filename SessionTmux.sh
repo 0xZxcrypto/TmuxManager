@@ -41,7 +41,7 @@ BOTS_NO_INPUT=(
     "DESPEED:/home/hg680p/despeedBot:npm run start:"
     "LAYEREDGE:/home/hg680p/LedgeBot:node main.js:"
     "OASIS-Ai:/home/hg680p/oasis-bot:node main.js:"
-    "NAORIS:/home/hg680p/Naoris-BOT:node main.js:"
+    #❌"NAORIS:/home/hg680p/Naoris-BOT:node main.js:"
     "CAPFIZZ:/home/hg680p/Capfizz-BOT:node main.js:"
     "OpenLedger:/home/hg680p/opledBot:node main.js:"
     #❌<BOT ERROR>"LISK:/home/hg680p/liskPortsl:node main.js:"

@@ -41,6 +41,8 @@ BOTS_NO_INPUT=(
     "DESPEED:/home/hg680p/despeedBot:npm run start:"
     "LAYEREDGE:/home/hg680p/LedgeBot:node main.js:"
     "OASIS-Ai:/home/hg680p/oasis-bot:node main.js:"
+    "NAORIS:/home/hg680p/Naoris-BOT:node main.js:"
+    "CAPFIZZ:/home/hg680p/Capfizz-BOT:node main.js:"
     #❌<BOT ERROR>"LISK:/home/hg680p/liskPortsl:node main.js:"
     #❌<BOT ERROR>"BERATRAX:/home/hg680p/beratraxBot:node main.js:"
     #❌<BOT ERROR>"TAKER:/home/hg680p/takerBot:node main.js:"
@@ -131,6 +133,13 @@ start_bot_with_venv "STREAM-Ai" "/home/hg680p/StreamAi-BOT" "python3 bot.py" "/h
 
 # Menjalankan AIGAEA dengan virtual environment
 start_bot_with_venv "AiGaea" "/home/hg680p/AiGaea-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+
+# Menjalankan ASSISTER dengan virtual environment
+start_bot_with_venv "ASSISTER" "/home/hg680p/Assisterr-BOT" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+
+# Menjalankan PIPE dengan virtual environment
+start_bot_with_venv "PIPE" "/home/hg680p/PIPE" "python3 bot.py" "/home/hg680p/venv/bin/activate"
+
 # Loop untuk menjalankan bot dengan input otomatis
 for BOT in "${BOTS_WITH_INPUT[@]}"; do
     IFS=":" read -r SESSION FOLDER COMMAND INPUTS <<< "$BOT"
